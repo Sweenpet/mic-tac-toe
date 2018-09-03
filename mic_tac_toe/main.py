@@ -1,13 +1,12 @@
 import logging
 import uuid
 
-from resource_locators import UrlResourceLocator
-from resource_locators import ContentType
-from resource_converters.excel import SheetReaderFactory
-from resource_converters import XlsConverter
-from bucket_client import BucketClient
+from mic_tac_toe.resource_converters import XlsConverter
+from mic_tac_toe.resource_locators import UrlResourceLocator
 
-from settings import get_url, get_sheet_reader, get_sheet_name, \
+from mic_tac_toe.bucket_client import BucketClient
+from mic_tac_toe.resource_converters.excel import SheetReaderFactory
+from mic_tac_toe.settings import get_url, get_sheet_reader, get_sheet_name, \
     get_aws_access_key_id, get_aws_secret_access_key, get_bucket
 
 log = logging.getLogger(__name__)
@@ -15,14 +14,9 @@ log = logging.getLogger(__name__)
 def main():
 
     locator = UrlResourceLocator()
-    content_type, content_bytes = locator.locate(get_url())
+    content_bytes = locator.locate(get_url())
 
     if len(content_bytes) == 0:
-        return
-
-    content_type = ContentType(content_type)
-
-    if content_type != ContentType.XLSX:
         return
 
     bucket_client = BucketClient(get_aws_access_key_id(), get_aws_secret_access_key(),

@@ -1,9 +1,10 @@
 from io import BytesIO
+from pandas import ExcelFile
 import json
 import logging
-from pandas import ExcelFile
 
-from resource_converters.base_converter import BaseConverter
+
+from mic_tac_toe.resource_converters.base_converter import BaseConverter
 
 log = logging.getLogger(__name__)
 

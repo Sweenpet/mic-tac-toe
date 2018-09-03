@@ -8,7 +8,10 @@ class MicSheetReader(SheetReader):
         super().__init__(sheet_name)
 
     def read(self, df):
-        """reads sheet with mic information and return array"""
+        """Reads sheet with mic information and return array"""
+
+        if df is None:
+            return False, []
 
         keys = [self._sanitize_key(k) for k in df.keys()]
         return True, [self._convert(row, keys) for row in df.values]
@@ -23,7 +26,7 @@ class MicSheetReader(SheetReader):
             if not MicSheetReader._is_valid(value):
                 continue
 
-            item[keys[index]] = value
+            item[keys[index]] = MicSheetReader._convert_value(value)
 
         return item
 
@@ -37,6 +40,14 @@ class MicSheetReader(SheetReader):
             return False
 
         return True
+
+    @staticmethod
+    def _convert_value(value):
+
+        if isinstance(value, str):
+            return value.lower()
+
+        return value
 
     @staticmethod
     def _sanitize_key(value):

@@ -8,7 +8,7 @@ class SheetReader(ABC):
     @abstractmethod
     def read(self, df):
         """Accepts a Dataframe representation of the sheet
-        and returns the json version"""
+        and returns an array of dicts"""
 
 
     def can_read(self, sheet_name):

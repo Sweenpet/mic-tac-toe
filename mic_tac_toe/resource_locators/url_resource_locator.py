@@ -2,13 +2,15 @@ import requests
 import logging
 
 from .resource_locator import ResourceLocator
-from .content_type import ContentType
 
 log = logging.getLogger(__name__)
 
 class UrlResourceLocator(ResourceLocator):
 
     def locate(self, url):
+
+        if not url.startswith('http'):
+            url = "http://{}".format(url)
 
         try:
             response = requests.get(url)
@@ -21,7 +23,7 @@ class UrlResourceLocator(ResourceLocator):
                 log.error("Content is none or empty")
                 return self._default_value()
 
-            return ContentType.XLSX, response.content
+            return response.content
 
         except Exception as e:
             log.error("Error sending request: {}".format(e))
@@ -30,5 +32,5 @@ class UrlResourceLocator(ResourceLocator):
 
     @staticmethod
     def _default_value():
-        return ContentType.XLSX, []
+        return []
 
