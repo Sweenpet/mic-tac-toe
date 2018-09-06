@@ -6,6 +6,7 @@ from mic_tac_toe.resource_converters.excel import MicSheetReader
 msr = MicSheetReader('Sheet1')
 xlsc = XlsConverter(msr)
 
+
 def test_should_handle_invalid_xls_bytes():
     invalid_bytes = bytes([1,2,3,4,5])
     success, json_output = xlsc.convert(invalid_bytes)
@@ -30,6 +31,7 @@ def test_should_correctly_read_xls_bytes():
             valid = False
 
         assert valid
+
 
 def test_should_not_read_xls_bytes_if_wrong_sheet_name():
 

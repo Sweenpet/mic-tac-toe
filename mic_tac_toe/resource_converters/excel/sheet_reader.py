@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class SheetReader(ABC):
 
     def __init__(self, sheet):
@@ -9,7 +10,6 @@ class SheetReader(ABC):
     def read(self, df):
         """Accepts a Dataframe representation of the sheet
         and returns an array of dicts"""
-
 
     def can_read(self, sheet_name):
         return self.sheet == sheet_name

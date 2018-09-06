@@ -8,6 +8,7 @@ from mic_tac_toe.resource_converters.base_converter import BaseConverter
 
 log = logging.getLogger(__name__)
 
+
 class XlsConverter(BaseConverter):
 
     def __init__(self, sheet_reader):

@@ -5,6 +5,7 @@ from .resource_locator import ResourceLocator
 
 log = logging.getLogger(__name__)
 
+
 class UrlResourceLocator(ResourceLocator):
 
     def locate(self, url):

@@ -2,6 +2,7 @@ import math
 
 from .sheet_reader import SheetReader
 
+
 class MicSheetReader(SheetReader):
 
     def __init__(self, sheet_name):

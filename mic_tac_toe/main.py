@@ -12,6 +12,7 @@ from mic_tac_toe.settings import get_sheet_reader, \
 
 log = logging.getLogger(__name__)
 
+
 def handler(event, context):
 
     if event['body'] is None:
@@ -27,7 +28,6 @@ def handler(event, context):
 
     if len(content_bytes) == 0:
         log.error('content bytes empty')
-
 
     bucket_client = BucketClient(get_aws_access_key_id(), get_aws_secret_access_key(),
                                  get_bucket())
@@ -45,6 +45,7 @@ def handler(event, context):
         log.error("There was an issue converting the file to json")
 
     bucket_client.push_to_processed("{}.json".format(file_name), output)
+
 
 if __name__ == "__main__":
 

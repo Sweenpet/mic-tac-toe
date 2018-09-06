@@ -5,10 +5,12 @@ from mic_tac_toe.resource_converters.excel import MicSheetReader
 
 msr = MicSheetReader('Sheet1')
 
+
 def test_can_handle_null():
     success, data = msr.read(None)
     assert not success
     assert_equal(len(data), 0)
+
 
 def test_should_parse_valid_dataframe():
     df = DataFrame()
@@ -23,6 +25,7 @@ def test_should_parse_valid_dataframe():
 
     assert success
 
+
 def test_should_remove_invalid_date_dataframe():
     df = DataFrame()
     df['Some Floats'] = [float(i if i % 10 == 0 else 'NaN') for i in range(0, 100)]
@@ -32,6 +35,7 @@ def test_should_remove_invalid_date_dataframe():
 
     assert 'some-floats' not in output[9]
     assert 'some-text' not in output[19]
+
 
 def test_should_sanitize_key_names():
     df = DataFrame()
@@ -44,6 +48,7 @@ def test_should_sanitize_key_names():
 
     assert keys[0] == 'some-floats'
     assert keys[1] == 'some-text'
+
 
 def test_should_make_text_lowercase():
     df = DataFrame()

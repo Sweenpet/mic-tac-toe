@@ -7,10 +7,7 @@ log = logging.getLogger(__name__)
 class BucketClient:
 
     def __init__(self, aws_id, aws_key, bucket):
-        self.s3 = boto3.resource('s3',
-                            aws_access_key_id=aws_id,
-                            aws_secret_access_key=aws_key)
-
+        self.s3 = boto3.resource('s3', aws_access_key_id=aws_id, aws_secret_access_key=aws_key)
         self.bucket = bucket
         self.raw = 'raw'
         self.processed = 'processed'
