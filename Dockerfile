@@ -18,8 +18,4 @@ RUN cp -R /usr/lib/python3.6/site-packages/* /app
 
 RUN cd /app; zip -r /app/dist.zip .
 
-ARG BUCKET
-ARG LAMBDA
-
-RUN aws s3 cp app/dist.zip s3://$BUCKET
-RUN aws lambda update-function-code --function-name $LAMBDA --s3-bucket $BUCKET --s3-key dist.zip --publish
+CMD ["/bin/bash", "/app/deploy.sh"]

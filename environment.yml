@@ -1,4 +1,4 @@
-name: steeleye-test
+name: mic-loader
 channels:
   - anaconda
   - conda-forge

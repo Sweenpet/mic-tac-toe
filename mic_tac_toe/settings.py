@@ -1,3 +1,7 @@
+import os
+from mic_tac_toe.credentials import AwsCredentials
+
+
 def get_sheet_name():
     return 'MICs List by CC'
 
@@ -12,12 +16,20 @@ def get_url():
 
 
 def get_bucket():
-    return '{bucket}'
+
+    if 'bucket' in os.environ:
+        return os.environ['bucket']
+
+    return 'steeleye-test'
 
 
-def get_aws_access_key_id():
-    return '{id}'
+def get_aws_access_credentials():
+    import os
 
+    if all(item in os.environ for item in ['aws_id', 'aws_key']):
+        return AwsCredentials(os.environ['aws_id'], os.environ['aws_key'])
 
-def get_aws_secret_access_key():
-    return '{secret_key}'
+    home = os.environ['HOME']
+    path = os.path.join(home, '.aws', 'credentials')
+
+    return AwsCredentials.init(path)

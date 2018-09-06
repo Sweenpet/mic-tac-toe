@@ -8,7 +8,7 @@ xlsc = XlsConverter(msr)
 
 
 def test_should_handle_invalid_xls_bytes():
-    invalid_bytes = bytes([1,2,3,4,5])
+    invalid_bytes = bytes([1, 2, 3, 4, 5])
     success, json_output = xlsc.convert(invalid_bytes)
 
     assert not success

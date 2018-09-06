@@ -11,12 +11,12 @@ def test_should_handle_invalid_url():
 
 
 def test_should_handle_valid_url():
-    incorrect_url = ''.join(['a' for i in range(0,100)])
+    incorrect_url = ''.join(['a' for i in range(0, 100)])
     resource_bytes = resource_locator.locate("www.{}.com".format(incorrect_url))
     assert_equal(len(resource_bytes), 0)
 
 
 def test_should_handle_actual_url():
     resource_bytes = resource_locator.locate("www.example.com")
-    assert_equal(len(resource_bytes), 0)
+    assert len(resource_bytes) > 0
 

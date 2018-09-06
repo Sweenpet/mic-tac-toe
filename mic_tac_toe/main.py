@@ -7,8 +7,7 @@ from mic_tac_toe.resource_locators import UrlResourceLocator
 
 from mic_tac_toe.bucket_client import BucketClient
 from mic_tac_toe.resource_converters.excel import SheetReaderFactory
-from mic_tac_toe.settings import get_sheet_reader, \
-    get_aws_access_key_id, get_aws_secret_access_key, get_bucket
+from mic_tac_toe.settings import get_sheet_reader, get_aws_access_credentials
 
 log = logging.getLogger(__name__)
 
@@ -29,8 +28,7 @@ def handler(event, context):
     if len(content_bytes) == 0:
         log.error('content bytes empty')
 
-    bucket_client = BucketClient(get_aws_access_key_id(), get_aws_secret_access_key(),
-                                 get_bucket())
+    bucket_client = BucketClient(get_aws_access_credentials(), get_bucket())
 
     file_name = uuid.uuid4()
 
