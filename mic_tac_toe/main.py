@@ -7,34 +7,28 @@ from mic_tac_toe.resource_locators import UrlResourceLocator
 
 from mic_tac_toe.bucket_client import BucketClient
 from mic_tac_toe.resource_converters.excel import SheetReaderFactory
-from mic_tac_toe.settings import get_sheet_reader, get_aws_access_credentials
+from mic_tac_toe.settings import get_settings, get_s3
 
 log = logging.getLogger(__name__)
 
 
 def handler(event, context):
 
-    if event['body'] is None:
-        log.error("body of request is empty")
-
-    body = json.loads(event['body'])
-
-    url = body['url']
-    sheet_name = body['sheet_name']
+    settings = get_settings()
 
     locator = UrlResourceLocator()
-    content_bytes = locator.locate(url)
+    content_bytes = locator.locate(settings.url)
 
     if len(content_bytes) == 0:
         log.error('content bytes empty')
 
-    bucket_client = BucketClient(get_aws_access_credentials(), get_bucket())
+    bucket_client = BucketClient(get_s3(), settings.bucket)
 
     file_name = uuid.uuid4()
 
     bucket_client.push_to_raw("{}.xls".format(file_name), content_bytes)
 
-    sheet_reader = SheetReaderFactory.create(get_sheet_reader(), sheet_name)
+    sheet_reader = SheetReaderFactory.create(settings.sheet_reader, settings.sheet_name)
     xls_converter = XlsConverter(sheet_reader)
 
     success, output = xls_converter.convert(content_bytes)
@@ -46,14 +40,4 @@ def handler(event, context):
 
 
 if __name__ == "__main__":
-
-    from mic_tac_toe.settings import get_sheet_name, get_url
-
-    request = {
-        'body': json.dumps({
-            'url': get_url(),
-            'sheet_name': get_sheet_name()
-        })
-    }
-
-    handler(request, None)
+    handler(None, None)

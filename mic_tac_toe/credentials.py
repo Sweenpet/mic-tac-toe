@@ -27,7 +27,7 @@ class AwsCredentials:
         try:
 
             def read(text):
-                return text.split('=')[1]
+                return text.strip(' ').split('=')[1]
 
             with open(path) as f:
                 lines = f.readlines()

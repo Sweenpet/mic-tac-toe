@@ -1,35 +1,71 @@
-import os
-from mic_tac_toe.credentials import AwsCredentials
+class Settings:
+
+    def __init__(self, settings):
+        import mic_tac_toe.resource_converters.excel as excel_sheet_reader
+
+        self._url = settings["url"]
+        self._sheet_name = settings["sheet_name"]
+        self._sheet_reader = type(getattr(excel_sheet_reader, settings["sheet_reader"]))
+        self._bucket = settings["bucket"]
+
+    @property
+    def url(self):
+        return self._url
+
+    @property
+    def sheet_name(self):
+        return self._sheet_name
+
+    @property
+    def sheet_reader(self):
+        return self._sheet_reader
+
+    @property
+    def bucket(self):
+        return self._bucket
 
 
-def get_sheet_name():
-    return 'MICs List by CC'
-
-
-def get_sheet_reader():
-    from mic_tac_toe.resource_converters.excel import MicSheetReader
-    return type(MicSheetReader)
-
-
-def get_url():
-    return 'https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.xls'
-
-
-def get_bucket():
-
-    if 'bucket' in os.environ:
-        return os.environ['bucket']
-
-    return 'steeleye-test'
-
-
-def get_aws_access_credentials():
+def get_settings():
+    import json
     import os
 
-    if all(item in os.environ for item in ['aws_id', 'aws_key']):
-        return AwsCredentials(os.environ['aws_id'], os.environ['aws_key'])
+    def get_settings_inner(path):
+        with open(path) as f:
+            json_settings = json.load(f)
+            return Settings(json_settings)
 
-    home = os.environ['HOME']
-    path = os.path.join(home, '.aws', 'credentials')
+    file_path = "settings.json"
 
-    return AwsCredentials.init(path)
+    if os.path.exists(file_path):
+        return get_settings_inner(file_path)
+
+    # lambda hack
+
+    file_path = os.path.join("mic_tac_toe", file_path)
+
+    if os.path.exists(file_path):
+        return get_settings_inner(file_path)
+
+    raise FileNotFoundError("can't find settings.json")
+
+
+def get_s3():
+    import os
+    import boto3
+
+    from mic_tac_toe.credentials import AwsCredentials
+
+    if 'HOME' in os.environ:
+        home = os.environ['HOME']
+
+        path = os.path.join(home, '.aws', 'credentials')
+
+        cred =  AwsCredentials.init(path)
+
+        print(cred.id)
+        print(cred.key)
+
+        if cred is not None:
+            return boto3.resource('s3', aws_access_key_id=cred.id, aws_secret_access_key=cred.key)
+
+    return boto3.resource('s3')
