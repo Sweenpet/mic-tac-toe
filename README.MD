@@ -9,6 +9,7 @@ Conda package manager can be downloaded [here](https://conda.io/miniconda.html)
 
 To activate:
 *widows* ``` activate mic-loader ```
+
 *nix*  ``` source activate mic-loader ```
 
 To run:
@@ -28,11 +29,11 @@ To run:
 
 First build the docker images
 
-``` Docker build . --tag mic-loader```
+``` docker build . --tag mic-loader```
 
 Then to deploy
 
-``` Docker run mic-loader --env BUCKET={BUCKET} --env LAMBDA={LAMBDA} ```
+``` docker run mic-loader --env BUCKET={BUCKET} --env LAMBDA={LAMBDA} ```
 
 
 
