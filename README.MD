@@ -57,7 +57,7 @@ Changes I could make to how the data is stored:
 
 * Store it hierarchally by country, then city
 * Replace the string format for operating/market segment with binary value or enum
-* It might be benefitial to store the dates in a more conventional format dd/mm/yyyy
+* It might be beneficial to store the dates in a more conventional format dd/mm/yyyy
 * Can lose the www and http prefixes on the websites but keep whether its using ssl or not.
 
 Ultimately I would need more information on how the data is consumed to make these decisions.
