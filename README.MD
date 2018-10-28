@@ -1,4 +1,4 @@
-##AWS
+## AWS
 Firstly go to the AWS console/cli, create a lambda and give it write permissions to an s3 bucket.
 
 ## Run locally
